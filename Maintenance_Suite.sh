@@ -11,9 +11,9 @@ while true; do
     read -p "Enter your choice: " choice
 
     case $choice in
-        1) sudo ./Scripts/backup.sh ;;
+        1) sudo ./Scripts/Backup_Data.sh ;;
         2) sudo ./Scripts/Update_Clean.sh ;;
-        3) sudo ./Scrippts/Log_Monitoring.sh ;;
+        3) sudo ./Scripts/Log_Monitoring.sh ;;
         4) echo "Exiting..."; exit 0 ;;
         *) echo "Invalid choice!";;
     esac
