@@ -1,0 +1,75 @@
+#!/bin/bash
+# log_monitor.sh - Monitor a log file and alert on specific patterns
+
+set -e  # Exit if any command fails
+
+log_error() {
+    echo "Error: $1"
+    exit 1
+}
+
+# Step 1: Ask user for log file
+echo "Enter the absolute path of the log file to monitor (leave empty for default):"
+read -r LOG_FILE
+
+# Handle default log file selection if none provided
+if [ -z "$LOG_FILE" ]; then
+    if [[ -f "/var/log/syslog" ]]; then
+        LOG_FILE="/var/log/syslog"
+    elif [[ -f "/var/log/messages" ]]; then
+        LOG_FILE="/var/log/messages"
+    elif [[ -f "/var/log/system.log" ]]; then
+        LOG_FILE="/var/log/system.log"
+    else
+        log_error "No default log file found. Please specify a valid path."
+    fi
+    echo "No path entered. Using default log file: $LOG_FILE"
+fi
+
+# Validate log file existence and readability
+if [ ! -f "$LOG_FILE" ]; then
+    log_error "Log file '$LOG_FILE' not found."
+fi
+
+if [ ! -r "$LOG_FILE" ]; then
+    log_error "You don't have permission to read '$LOG_FILE'. Try running with sudo."
+fi
+
+# Step 2: Ask where to save alerts
+
+echo "Enter an absolute path to save alert results (leave empty for default 'log' folder):"
+read -r SAVE_PATH
+
+# Handle save directory logic
+if [ -z "$SAVE_PATH" ]; then
+    SAVE_PATH="./log"
+fi
+
+if [ ! -d "$SAVE_PATH" ]; then
+    echo "Folder '$SAVE_PATH' not found. Creating it now..."
+    mkdir -p "$SAVE_PATH" || log_error "Failed to create directory '$SAVE_PATH'."
+fi
+
+# Create timestamped log file
+TIMESTAMP=$(date '+%Y-%m-%d_%H-%M-%S')
+OUTPUT_FILE="$SAVE_PATH/log_monitor_${TIMESTAMP}.log"
+
+echo "-------------------------------------------"
+echo "Monitoring log file: $LOG_FILE"
+echo "Alerts will be saved to: $OUTPUT_FILE"
+echo "-------------------------------------------"
+
+
+# Step 3: Start monitoring
+PATTERNS=("error" "failed" "critical" "unauthorized")
+
+tail -Fn0 "$LOG_FILE" | while read -r line; do
+    for pattern in "${PATTERNS[@]}"; do
+        if [[ "$line" =~ $pattern ]]; then
+            TIME=$(date '+%Y-%m-%d %H:%M:%S')
+            ALERT="[$TIME] ALERT: '$pattern' found: $line"
+            echo "$ALERT"
+            echo "$ALERT" >> "$OUTPUT_FILE"
+        fi
+    done
+done

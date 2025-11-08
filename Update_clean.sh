@@ -11,7 +11,7 @@ echo "Updating system..."
 sudo apt update -y || log_error "Failed to update package lists. Check network connection."
 sudo apt upgrade -y || log_error "Failed to upgrade packages. Resolve package conflicts or broken dependencies."
 
-# Prompt the user for permission to remove unnecessary packages
+# Prompting the user for permission to remove unnecessary packages
 while true; do
     echo "Do you want to remove deprecated packages that were installed as dependencies but are no longer needed? (y/n)"
     read -r response 
