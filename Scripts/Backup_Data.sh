@@ -21,12 +21,11 @@ fi
 # Prompt user for directory to save backups; handle default and create if needed
 read -p "Enter directory path to save backups (default: 'Backup_Data' folder in current directory): " DEST
 if [ -z "$DEST" ]; then
-    BACKUP_DATA_DIR="./Backup_Data"
-    if [ ! -d "$BACKUP_DATA_DIR" ]; then
+    DEST="./Backup_Data"
+    if [ ! -d "$DEST" ]; then
         echo "'Backup_Data' folder not found in current directory. Creating it now..."
-        mkdir -p "$BACKUP_DATA_DIR" || log_error "Failed to create directory: $BACKUP_DATA_DIR"
+        mkdir -p "$DEST" || log_error "Failed to create directory: $DEST"
     fi
-    DEST="$BACKUP_DATA_DIR"
 fi
 
 # Check and create destination directory if it does not exist
@@ -35,14 +34,16 @@ if [ ! -d "$DEST" ]; then
     mkdir -p "$DEST" || log_error "Failed to create backup directory: $DEST"
 fi
 
+# Create subdirectory for tar error logs inside the backup directory
+ERROR_LOG_DIR="$DEST/Backup_error_log_File"
+mkdir -p "$ERROR_LOG_DIR" || log_error "Failed to create error log directory: $ERROR_LOG_DIR"
+
 # Prepare timestamped backup file name
 DATE=$(date +"%Y-%m-%d_%H-%M-%S")
 BACKUP_FILE="$DEST/backup_$DATE.tar.gz"
 
-# Create logs directory for error logs inside current directory system_maintenance_suite/logs
-LOG_DIR="./system_maintenance_suite/logs"
-mkdir -p "$LOG_DIR" || log_error "Failed to create log directory: $LOG_DIR"
-ERROR_LOG="$LOG_DIR/backup_error_$DATE.log"
+# Prepare tar error log file path
+ERROR_LOG="$ERROR_LOG_DIR/backup_error_$DATE.log"
 
 echo "Backing up contents of $SOURCE ..."
 if tar -czf "$BACKUP_FILE" -C "$(dirname "$SOURCE")" "$(basename "$SOURCE")" 2>> "$ERROR_LOG"; then
