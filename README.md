@@ -39,10 +39,10 @@ The **Bash System Maintenance Suite** is a menu-driven automation project for Li
 </span><span> │   ├─ Backup_Data.sh        # Automated backup
 </span><span> │   ├─ Update_Clean.sh       # System update and cleanup
 </span><span> │   ├─ Log_Monitoring.sh     # Log monitoring
-</span><span> ├─ Maintenance_Suite.sh    # Main menu interface
-</span><span> ├─ .gitignore/                       # Specifies intentionally untracked files to ignore in Git
+</span><span> ├─ Maintenance_Suite.sh      # Main menu interface
+</span><span> ├─ .gitignore/               # Specifies intentionally untracked files to ignore in Git
 </span><span> ├─ README.md/                # Project overview, Usage instructions, and documentation 
-</span><span> └─ LICENSE/                      # License information for the project
+</span><span> └─ LICENSE/                  # License information for the project
 </span><span></span></code></span></div></div></div></pre>
 
 ---
