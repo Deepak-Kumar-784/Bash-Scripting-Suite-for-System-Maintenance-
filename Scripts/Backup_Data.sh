@@ -1,6 +1,5 @@
 #!/bin/bash
 # backup.sh - Automated backup script with error handling and flexible backup destination
-
 # Exit script on error, unset variables, or pipe failure
 set -euo pipefail
 
