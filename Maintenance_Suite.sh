@@ -2,7 +2,6 @@
 # Maintenance_Suite.sh - System Maintenance Menu
 
 while true; do
-    clear
     echo "===== System Maintenance Suite ====="
     echo "1. Backup Data"
     echo "2. System Update & Cleanup"
