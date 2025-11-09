@@ -1,34 +1,34 @@
-
 # Bash Scripting Suite For System Maintenance
 
 ## Overview
 
 The **Bash System Maintenance Suite** is a menu-driven automation project for Linux system maintenance. It simplifies routine tasks like automated backups, system updates, cleanup, and log monitoring, providing a user-friendly interface for administrators. The suite is designed to save time and reduce errors by automating essential system administration tasks. Its modular structure allows easy customization and extension to accommodate different maintenance needs and environments.
 
----
-
 ## Features
 
 1. **System Backup**
-   * Prompts user for file/folder path to back up
-   * Confirms before creating backup
-   * Saves compressed `.tar.gz` files in `Backup_Data`
-   * If any error occures while creating `.tar.gz` files it also saves error log files inside Backup_Data
-   * Logs actions in `logs/backup_error_YYYY-MM-DD_HH-MM-SS.log`
-   * Prompts user for Folder path to save backup files/folders
-   * By default it creates folder "Backup_Data" in current directory and save output backup files in that Folder
+   - Prompts user for file/folder path to back up
+   - Confirms before creating backup
+   - Saves compressed `.tar.gz` files in `Backup_Data`
+   - If any error occures while creating `.tar.gz` files it also saves error log files inside Backup_Data
+   - Logs actions in `logs/backup_error_YYYY-MM-DD_HH-MM-SS.log`
+   - Prompts user for Folder path to save backup files/folders
+   - By default it creates folder "Backup_Data" in current directory and save output backup files in that Folder
+     ![System Backup](./Images/screenshot2.png)
 2. **System Update & Cleanup**
-   * Updates package lists and upgrades installed packages
-   * Optionally removes deprecated packages and cleans cache
-   * Confirms before removing deprecated packages and cleaning cache
-   * Handles errors gracefully like network issue , Resolve package conflicts etc.
+   - Updates package lists and upgrades installed packages
+   - Optionally removes deprecated packages and cleans cache
+   - Confirms before removing deprecated packages and cleaning cache
+   - Handles errors gracefully like network issue , Resolve package conflicts etc
+     ![System Update Image](./Images/screenshot3.png "System Update Image")
 3. **Log Monitoring**
-   * Scans `/var/log/syslog` for errors, warnings, critical messages, or failures
-   * saves Logs activities in `logs/log_monitor_DATE.log(log_monitor_2025-11-09_10-30-00.log)`
-   * Each log file entry includes timestamps and message severity to help prioritize incident response
+   - Scans `/var/log/syslog` for errors, warnings, critical messages, or failures
+   - saves Logs activities in `logs/log_monitor_DATE.log(log_monitor_2025-11-09_10-30-00.log)`
+   - Each log file entry includes timestamps and message severity to help prioritize incident response
+     ![System Log Monitoring Image](./Images/screenshot4.png "System Monitoring Image")
 4. **Menu-Based Automation**
-   * Interactive menu to run all scripts
-   * Validates input and provides feedback
+   - Interactive menu to run all scripts
+   - Validates input and provides feedback
 
 ---
 
@@ -77,10 +77,10 @@ Run the main menu:
 
 Menu options:
 
-* `1` → Run Backup
-* `2` → System Update & Cleanup
-* `3` → Monitor System Logs
-* `4` → Exit
+- `1` → Run Backup
+- `2` → System Update & Cleanup
+- `3` → Monitor System Logs
+- `4` → Exit
 
 Follow on-screen prompts for each task.
 
@@ -88,13 +88,13 @@ Follow on-screen prompts for each task.
 
 ## Logging
 
-* `logs/log_monitor_CURRENT_DATE.log` → Backup activities
+- `logs/log_monitor_CURRENT_DATE.log` → Backup activities
 
 ---
 
 ## Requirements
 
-* Linux OS (Ubuntu recommended)
-* Bash shell
-* Utilities: `tar`, `grep` , `apt , tail , read , date `
-* `sudo` privileges for system updates and cleanup
+- Linux OS (Ubuntu recommended)
+- Bash shell
+- Utilities: `tar`, `grep` , `apt , tail , read , date `
+- `sudo` privileges for system updates and cleanup
