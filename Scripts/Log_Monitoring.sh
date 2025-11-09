@@ -67,9 +67,24 @@ echo "-------------------------------------------"
 
 # Start monitoring
 PATTERN_REGEX="error|failed|critical|unauthorized"
-tail -Fn0 "$LOG_FILE" | grep --line-buffered -Ei "$PATTERN_REGEX" | while read -r line; do
-    TIME=$(date '+%Y-%m-%d %H:%M:%S')
-    ALERT="[$TIME] ALERT: pattern found: $line"
-    echo "$ALERT"
-    echo "$ALERT" >> "$OUTPUT_FILE"
-done
+# tail -F "$LOG_FILE" | grep --line-buffered -Ei "$PATTERN_REGEX" | while read -r line; do
+#     TIME=$(date '+%Y-%m-%d %H:%M:%S')
+#     ALERT="[$TIME] ALERT: pattern found: $line"
+#     echo "$ALERT"
+#     echo "$ALERT" >> "$OUTPUT_FILE"
+# done
+
+stdbuf -oL -eL tail -n +1 -f "$LOG_FILE" | \
+stdbuf -oL -eL awk -v regex="$PATTERN_REGEX" -v outfile="$OUTPUT_FILE" '
+    BEGIN { IGNORECASE=1 }
+    $0 ~ regex {
+        cmd="date +\"%Y-%m-%d %H:%M:%S\""
+        cmd | getline time
+        close(cmd)
+        alert="[" time "] ALERT: pattern found: " $0
+        print alert
+        print alert >> outfile
+        fflush(stdout)
+        fflush(outfile)
+    }
+'
