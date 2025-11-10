@@ -8,7 +8,7 @@ log_error() {
     exit 1
 }
 
-# Ask user for log file
+# Ask user for log file Path
 echo "Enter the absolute path of the log file to monitor (leave empty for default):"
 read -r LOG_FILE
 
